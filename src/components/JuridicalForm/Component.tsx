@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import { Button } from "../Button/Component";
 
-export default function JuridicalForm() {
+export const JuridicalForm = () => {
   const navigate = useNavigate();
   const { companyData, setCompanyData } = useContext(UserContext);
   const [formData, setFormData] = useState(companyData);
@@ -22,11 +23,11 @@ export default function JuridicalForm() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md">
       <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base/7 font-semibold text-gray-900">
+        <div className="pb-10">
+        <h2 className="mx-auto font-semibold mb-4 max-w-2xl text-xl text-slate-700">
             Pessoa Jurídica
           </h2>
-          <p className="mt-1 text-sm/6 text-gray-600">
+          <p className="mx-auto max-w-2xl text-md text-slate-700">
             Preencha os dados para pessoa jurídica.
           </p>
 
@@ -44,7 +45,7 @@ export default function JuridicalForm() {
                 type="text"
                 value={formData.companyName}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
               />
             </div>
@@ -61,7 +62,7 @@ export default function JuridicalForm() {
                 type="text"
                 value={formData.cnpj}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
               />
             </div>
@@ -78,7 +79,7 @@ export default function JuridicalForm() {
                 type="number"
                 value={formData.monthlyRevenue}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
               />
             </div>
@@ -95,7 +96,7 @@ export default function JuridicalForm() {
                 type="text"
                 value={formData.city}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
               />
             </div>
@@ -104,19 +105,19 @@ export default function JuridicalForm() {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button
+        <Button
           type="button"
           onClick={() => navigate("/")}
-          className="text-sm/6 font-semibold text-gray-900"
-        >
-          Voltar
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Salvar
-        </button>
+          variant="secondary"
+          label="Voltar"
+        />
+
+        <Button
+          type="button"
+          onClick={() => navigate("/")}
+          variant="primary"
+          label="Salvar"
+        />
       </div>
     </form>
   );

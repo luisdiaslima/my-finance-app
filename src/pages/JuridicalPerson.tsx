@@ -1,5 +1,5 @@
 import { ContentForm } from "../components/ContentForm/Component";
-import JuridicalForm from "../components/JuridicalForm/Component";
+import { JuridicalForm } from "../components/JuridicalForm/Component";
 
 export default function JuridicalPerson() {
   return (
