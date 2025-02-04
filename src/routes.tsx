@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import NatualPerson from "./pages/NaturalPerson";
 import JuridicalPerson from "./pages/JuridicalPerson";
+import CreditResult from './pages/CreditResult'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: "/pessoa-juridica",
     element: <JuridicalPerson />,
+  },
+  {
+    path: "/seu-credito",
+    element: <CreditResult />,
   },
 ]);
 

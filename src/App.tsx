@@ -1,11 +1,14 @@
 import { RouterProvider } from "react-router-dom";
-import router from "./routes";
-import { UserProvider } from "./context/UserContext";
+import router from "@/routes";
+import { UserProvider } from "@/context/UserContext";
+import { CreditProvider } from "./context/CreditContext";
 
 export default function App() {
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <CreditProvider>
+        <RouterProvider router={router} />
+      </CreditProvider>
     </UserProvider>
   );
 }

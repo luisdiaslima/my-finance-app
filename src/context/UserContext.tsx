@@ -1,19 +1,6 @@
+import { CompanyData, IndividualData } from "@/types/User.interface";
 import { createContext, useState, ReactNode } from "react";
 
-type IndividualData = {
-  name: string;
-  age: string;
-  cpf: string;
-  monthlyIncome: string;
-  city: string;
-};
-
-type CompanyData = {
-  companyName: string;
-  cnpj: string;
-  monthlyRevenue: string;
-  city: string;
-};
 
 type UserContextType = {
   individualData: IndividualData;
@@ -25,16 +12,16 @@ type UserContextType = {
 export const UserContext = createContext<UserContextType>({
   individualData: {
     name: "",
-    age: "",
-    cpf: "",
-    monthlyIncome: "",
+    age: 0,
+    document: "",
+    income: 0,
     city: "",
   },
   setIndividualData: () => {},
   companyData: {
-    companyName: "",
-    cnpj: "",
-    monthlyRevenue: "",
+    name: "",
+    document: "",
+    revenue: 0,
     city: "",
   },
   setCompanyData: () => {},
@@ -43,16 +30,16 @@ export const UserContext = createContext<UserContextType>({
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [individualData, setIndividualData] = useState<IndividualData>({
     name: "",
-    age: "",
-    cpf: "",
-    monthlyIncome: "",
+    age: 0,
+    document: "",
+    income: 0,
     city: "",
   });
 
   const [companyData, setCompanyData] = useState<CompanyData>({
-    companyName: "",
-    cnpj: "",
-    monthlyRevenue: "",
+    name: "",
+    document: "",
+    revenue: 0,
     city: "",
   });
 

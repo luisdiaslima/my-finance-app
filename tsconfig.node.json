@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // Define o diretório base para os caminhos
+    "paths": {
+      "@/*": ["./src/*"] // Mapeia o alias '@' para o diretório 'src'
+    },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2022",
     "lib": ["ES2023"],

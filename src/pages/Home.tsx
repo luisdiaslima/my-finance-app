@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/Button/Component";
+import { Button } from "@/components/Button/Component";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -25,11 +25,11 @@ export default function Home() {
               label="Pessoa Física"
             />
 
-            <Button
+            {/* <Button
               onClick={() => navigate("/pessoa-juridica")}
               variant="secondary"
               label="Pessoa Jurídica"
-            />
+            /> */}
           </div>
         </div>
       </div>

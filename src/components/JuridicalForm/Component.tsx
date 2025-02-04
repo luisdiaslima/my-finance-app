@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
-import { Button } from "../Button/Component";
+import { UserContext } from "@/context/UserContext";
+import { Button } from "@/components/Button/Component";
 
 export const JuridicalForm = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export const JuridicalForm = () => {
                 id="companyName"
                 name="companyName"
                 type="text"
-                value={formData.companyName}
+                value={formData.name}
                 onChange={handleChange}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
@@ -60,7 +60,7 @@ export const JuridicalForm = () => {
                 id="cnpj"
                 name="cnpj"
                 type="text"
-                value={formData.cnpj}
+                value={formData.document}
                 onChange={handleChange}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
@@ -77,7 +77,7 @@ export const JuridicalForm = () => {
                 id="monthlyRevenue"
                 name="monthlyRevenue"
                 type="number"
-                value={formData.monthlyRevenue}
+                value={formData.revenue}
                 onChange={handleChange}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
                 required
