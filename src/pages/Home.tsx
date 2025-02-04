@@ -25,11 +25,11 @@ export default function Home() {
               label="Pessoa Física"
             />
 
-            {/* <Button
+            <Button
               onClick={() => navigate("/pessoa-juridica")}
               variant="secondary"
               label="Pessoa Jurídica"
-            /> */}
+            />
           </div>
         </div>
       </div>

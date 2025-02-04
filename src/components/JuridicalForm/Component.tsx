@@ -1,30 +1,92 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "@/context/UserContext";
 import { Button } from "@/components/Button/Component";
+import { useCredit } from "@/context/CreditContext";
+import { validateFormData } from "./helpers";
+import { CompanyData } from "@/types/User.interface";
+
+interface Errors {
+  [key: string]: string;
+}
 
 export const JuridicalForm = () => {
   const navigate = useNavigate();
-  const { companyData, setCompanyData } = useContext(UserContext);
-  const [formData, setFormData] = useState(companyData);
+  const [formData, setFormData] = useState<CompanyData>({
+    city: "",
+    name: "",
+    document: "",
+    revenue: 0
+  });
+  const [errors, setErrors] = useState<Errors>({});
+
+  const { consultCompany } = useCredit();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCompanyData(formData); 
-    alert("Dados salvos com sucesso!");
-    navigate("/");
+  const setErrorValue = (key: string, value: string) => {
+    setErrors((prevErrors) => {
+      return { ...prevErrors, [key]: value };
+    });
   };
 
+  const validateName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.trim().length < 8) {
+      return setErrorValue(
+        "name",
+        "Este campo deve ter no mínmo 11 caracteres."
+      );
+    }
+    return setErrorValue("name", "");
+  };
+
+  const validateDocument = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length < 14) {
+      return setErrorValue("document", "Documento inválido.");
+    }
+    return setErrorValue("document", "");
+  };
+
+  const validateRevenue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number(e.target.value) < 500) {
+
+      return setErrorValue(
+        "revenue",
+        "Seu faturamento mensal não é suficiente."
+      );
+    }
+    return setErrorValue("revenue", "");
+  };
+
+  const validateCity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.trim().length <= 0) {
+      return setErrorValue("city", "Este campo é obrigatório.");
+    }
+    return setErrorValue("city", "");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newErrors = validateFormData(formData);
+    setErrors(newErrors);
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+
+    if (hasErrors) {
+      console.debug("handleSubmit:errors", errors);
+      return;
+    }
+
+    await consultCompany(formData);
+    navigate("/seu-credito");
+  };
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md">
       <div className="space-y-12">
         <div className="pb-10">
-        <h2 className="mx-auto font-semibold mb-4 max-w-2xl text-xl text-slate-700">
+          <h2 className="mx-auto font-semibold mb-4 max-w-2xl text-xl text-slate-700">
             Pessoa Jurídica
           </h2>
           <p className="mx-auto max-w-2xl text-md text-slate-700">
@@ -34,54 +96,62 @@ export const JuridicalForm = () => {
           <div className="mt-10 space-y-6">
             <div className="flex flex-col gap-y-2">
               <label
-                htmlFor="companyName"
-                className="block text-sm/6 font-medium text-gray-900"
+                htmlFor="name"
+                className="block text-sm/6 font-medium text-slate-700"
               >
-                Razão Social
+                Razão social
               </label>
               <input
-                id="companyName"
-                name="companyName"
+                id="name"
+                name="name"
                 type="text"
-                value={formData.name}
                 onChange={handleChange}
+                onBlur={validateName}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
-                required
               />
+              <span className="block text-sm/6 font-small text-red-500">
+                {errors?.name}
+              </span>
             </div>
             <div className="flex flex-col gap-y-2">
               <label
-                htmlFor="cnpj"
+                htmlFor="document"
                 className="block text-sm/6 font-medium text-gray-900"
               >
                 CNPJ
               </label>
               <input
-                id="cnpj"
-                name="cnpj"
-                type="text"
-                value={formData.document}
+                id="document"
+                name="document"
+                type="number"
                 onChange={handleChange}
+                onBlur={validateDocument}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
-                required
               />
+              <span className="block text-sm/6 font-small text-red-500">
+                {errors?.document}
+              </span>
             </div>
+
             <div className="flex flex-col gap-y-2">
               <label
-                htmlFor="monthlyRevenue"
+                htmlFor="revenue"
                 className="block text-sm/6 font-medium text-gray-900"
               >
                 Faturamento Mensal
               </label>
               <input
-                id="monthlyRevenue"
-                name="monthlyRevenue"
+                id="revenue"
+                name="revenue"
                 type="number"
-                value={formData.revenue}
                 onChange={handleChange}
+                onBlur={validateRevenue}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
-                required
               />
+
+              <span className="block text-sm/6 font-small text-red-500">
+                {errors?.revenue}
+              </span>
             </div>
             <div className="flex flex-col gap-y-2">
               <label
@@ -94,11 +164,14 @@ export const JuridicalForm = () => {
                 id="city"
                 name="city"
                 type="text"
-                value={formData.city}
                 onChange={handleChange}
+                onBlur={validateCity}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
-                required
               />
+
+              <span className="block text-sm/6 font-small text-red-500">
+                {errors?.city}
+              </span>
             </div>
           </div>
         </div>
@@ -107,18 +180,13 @@ export const JuridicalForm = () => {
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <Button
           type="button"
-          onClick={() => navigate("/")}
           variant="secondary"
           label="Voltar"
+          onClick={() => navigate("/")}
         />
 
-        <Button
-          type="button"
-          onClick={() => navigate("/")}
-          variant="primary"
-          label="Salvar"
-        />
+        <Button type="button" variant="primary" label="Salvar" />
       </div>
     </form>
   );
-}
+};
