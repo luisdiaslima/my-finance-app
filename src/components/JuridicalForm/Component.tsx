@@ -75,7 +75,7 @@ export const JuridicalForm = () => {
     const hasErrors = Object.values(newErrors).some((error) => error !== "");
 
     if (hasErrors) {
-      console.debug("handleSubmit:errors", errors);
+      console.error("handleSubmit:errors", errors);
       return;
     }
 
