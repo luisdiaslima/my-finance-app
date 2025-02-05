@@ -16,7 +16,7 @@ export const NaturalForm = () => {
     name: "",
     age: 0,
     document: "",
-    income: 0
+    income: 0,
   });
   const [errors, setErrors] = useState<Errors>({});
 

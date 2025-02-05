@@ -1,14 +1,19 @@
 import React, { createContext, useContext, useState } from "react";
 import { fakeApi } from "@/api/handlers";
 import { CompanyData, IndividualData } from "@/types/User.interface";
-import { SimulationsData, CreditResult, StoredConsultation } from "@/types/Credit.interface";
+import {
+  SimulationsData,
+  CreditResult,
+  StoredConsultation,
+} from "@/types/Credit.interface";
 
 type CreditContextType = {
   consultations: StoredConsultation<IndividualData | CompanyData>[];
-  lastConsultation?: StoredConsultation<IndividualData | CompanyData>;
+  lastConsultation?: StoredConsultation<IndividualData | CompanyData> | null;
   consultPerson: (payload: IndividualData) => Promise<CreditResult>;
   consultCompany: (payload: CompanyData) => Promise<CreditResult>;
   getCreditList: () => Promise<SimulationsData>;
+  deleteLastConsult: () => void;
 };
 
 const CreditContext = createContext<CreditContextType | undefined>(undefined);
@@ -17,14 +22,25 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const lastConsultationFromStorage = localStorage.getItem("lastConsultation");
-  const [consultations, setConsultations] = useState<StoredConsultation<IndividualData | CompanyData>[]>([]);
-  const [lastConsultation, setLastConsultation] = useState<StoredConsultation<IndividualData | CompanyData>>(
-    lastConsultationFromStorage ? JSON.parse(lastConsultationFromStorage) : {}
+  const [consultations, setConsultations] = useState<
+    StoredConsultation<IndividualData | CompanyData>[]
+  >([]);
+  const [lastConsultation, setLastConsultation] = useState<StoredConsultation<
+    IndividualData | CompanyData
+  > | null>(
+    lastConsultationFromStorage ? JSON.parse(lastConsultationFromStorage) : null
   );
 
-  const saveLastConsult = (payload: StoredConsultation<IndividualData | CompanyData>) => {
+  const saveLastConsult = (
+    payload: StoredConsultation<IndividualData | CompanyData>
+  ) => {
     setLastConsultation(payload);
     localStorage.setItem("lastConsultation", JSON.stringify(payload));
+  };
+
+  const deleteLastConsult = () => {
+    setLastConsultation(null);
+    localStorage.removeItem("lastConsultation");
   };
 
   const consultPerson = async (payload: IndividualData) => {
@@ -64,6 +80,7 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
         consultPerson,
         consultCompany,
         lastConsultation,
+        deleteLastConsult,
         getCreditList,
       }}
     >

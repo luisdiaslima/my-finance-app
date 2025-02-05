@@ -1,8 +1,9 @@
 import { CompanyData, IndividualData } from "./User.interface";
 
+export type CreditStatus = "APPROVED" | "DENIED";
 export interface CreditResult {
   max_amount?: number;
-  status: string;
+  status: CreditStatus;
 }
 
 export type StoredConsultation<T> = {

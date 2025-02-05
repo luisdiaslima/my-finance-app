@@ -1,6 +1,10 @@
 import { Button } from "@/components/Button/Component";
 import { useCredit } from "@/context/CreditContext";
-import { JuridicalData, PersonData } from "@/types/Credit.interface";
+import {
+  CreditStatus,
+  JuridicalData,
+  PersonData,
+} from "@/types/Credit.interface";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +20,7 @@ export default function CreditList() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await await getCreditList();
+        const response = await getCreditList();
         setVisibleItems([...response.persons, ...response.companies]);
       } catch (error) {
         console.error(error);
@@ -28,18 +32,26 @@ export default function CreditList() {
     fetchData();
   }, []);
 
-  // const formatStatusMessage = (status: ) => {
+  const formatStatusMessage = (status: CreditStatus) => {
+    const formatStatus = {
+      APPROVED: "Aprovado",
+      DENIED: "Negado",
+    };
 
-  // }
+    return formatStatus[status];
+  };
 
-  return !loading ? (
-    <div className="h-screen flex items-center flex-col">
-      <div className="overflow-x-auto w-250 mt-25 mb-10 bg-white rounded-lg shadow-md">
+  return !loading && visibleItems.length ? (
+    <div className="h-screen flex items-center flex-col px-4 lg:px-15">
+      <div className="overflow-x-auto w-full mt-25 mb-10 bg-white rounded-lg shadow-md">
         <table className="min-w-full">
           <thead className="bg-gray-100">
             <tr>
               <th className="py-4 px-6 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 Nome
+              </th>
+              <th className="py-4 px-6 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                Documento
               </th>
               <th className="py-4 px-6 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                 Status
@@ -58,6 +70,12 @@ export default function CreditList() {
                 <td className="py-4 px-6 text-sm text-gray-900">
                   {"person" in item ? item.person.name : item.company.name}
                 </td>
+
+                <td className="py-4 px-6 text-sm text-gray-900">
+                  {"person" in item
+                    ? item.person.document
+                    : item.company.document}
+                </td>
                 <td className="py-4 px-6">
                   <span
                     className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
@@ -66,7 +84,7 @@ export default function CreditList() {
                         : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {item.credit_result.status}
+                    {formatStatusMessage(item.credit_result.status)}
                   </span>
                 </td>
                 <td className="py-4 px-6 text-sm text-gray-900">
@@ -90,7 +108,9 @@ export default function CreditList() {
     </div>
   ) : (
     <div className="h-screen flex items-center justify-center flex-col">
-      Carregando suas consultas...
+      {!loading && !visibleItems.length
+        ? "Você não possui consultas."
+        : "Carregando consultas..."}
     </div>
   );
 }

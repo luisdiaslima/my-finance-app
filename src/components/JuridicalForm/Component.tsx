@@ -15,7 +15,7 @@ export const JuridicalForm = () => {
     city: "",
     name: "",
     document: "",
-    revenue: 0
+    revenue: 0,
   });
   const [errors, setErrors] = useState<Errors>({});
 
@@ -51,7 +51,6 @@ export const JuridicalForm = () => {
 
   const validateRevenue = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (Number(e.target.value) < 500) {
-
       return setErrorValue(
         "revenue",
         "Seu faturamento mensal não é suficiente."
