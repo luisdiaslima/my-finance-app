@@ -1,29 +1,14 @@
 import { Button } from "@/components/Button/Component";
 import { useCredit } from "@/context/CreditContext";
-import { IndividualData, CompanyData as Company } from "@/types/User.interface";
+import { JuridicalData, PersonData } from "@/types/Credit.interface";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface CreditResult {
-  max_amount?: number;
-  status: string;
-}
-
-interface PersonData {
-  person: IndividualData;
-  credit_result: CreditResult;
-}
-
-interface CompanyData {
-  company: Company;
-  credit_result: CreditResult;
-}
 
 export default function CreditList() {
   const navigate = useNavigate();
   const { getCreditList } = useCredit();
   const [visibleItems, setVisibleItems] = useState<
-    (PersonData | CompanyData)[]
+    (PersonData | JuridicalData)[]
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -42,6 +27,10 @@ export default function CreditList() {
 
     fetchData();
   }, []);
+
+  // const formatStatusMessage = (status: ) => {
+
+  // }
 
   return !loading ? (
     <div className="h-screen flex items-center flex-col">
@@ -81,7 +70,7 @@ export default function CreditList() {
                   </span>
                 </td>
                 <td className="py-4 px-6 text-sm text-gray-900">
-                  {item.credit_result.max_amount || "N/A"}
+                  {item.credit_result?.max_amount || "N/A"}
                 </td>
                 <td className="py-4 px-6 text-sm text-gray-900">
                   {"person" in item ? item.person.city : item.company.city}

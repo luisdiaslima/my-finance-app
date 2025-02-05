@@ -1,12 +1,28 @@
 import { CompanyData, IndividualData } from "./User.interface";
 
-export type ApiResponse =
-  | { status: 'APPROVED'; max_amount: number }
-  | { status: 'DENIED' };
+export interface CreditResult {
+  max_amount?: number;
+  status: string;
+}
 
-export type StoredConsultation = {
+export type StoredConsultation<T> = {
   url: string;
-  payload: IndividualData | CompanyData;
-  credit_result: ApiResponse;
+  payload: T;
+  credit_result: CreditResult;
   timestamp: string;
 };
+
+export interface PersonData {
+  person: IndividualData;
+  credit_result: CreditResult;
+}
+
+export interface JuridicalData {
+  company: CompanyData;
+  credit_result: CreditResult;
+}
+
+export interface SimulationsData {
+  persons: PersonData[];
+  companies: JuridicalData[];
+}

@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState } from "react";
 import { fakeApi } from "@/api/handlers";
 import { CompanyData, IndividualData } from "@/types/User.interface";
-import { ApiResponse, StoredConsultation } from "@/types/Credit.interface";
+import { SimulationsData, CreditResult, StoredConsultation } from "@/types/Credit.interface";
 
 type CreditContextType = {
-  consultations: StoredConsultation[];
-  lastConsultation?: StoredConsultation;
-  consultPerson: (payload: IndividualData) => Promise<ApiResponse>;
-  consultCompany: (payload: CompanyData) => Promise<ApiResponse>;
-  getCreditList: () => Promise<any>;
+  consultations: StoredConsultation<IndividualData | CompanyData>[];
+  lastConsultation?: StoredConsultation<IndividualData | CompanyData>;
+  consultPerson: (payload: IndividualData) => Promise<CreditResult>;
+  consultCompany: (payload: CompanyData) => Promise<CreditResult>;
+  getCreditList: () => Promise<SimulationsData>;
 };
 
 const CreditContext = createContext<CreditContextType | undefined>(undefined);
@@ -17,12 +17,12 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const lastConsultationFromStorage = localStorage.getItem("lastConsultation");
-  const [consultations, setConsultations] = useState<StoredConsultation[]>([]);
-  const [lastConsultation, setLastConsultation] = useState<StoredConsultation>(
+  const [consultations, setConsultations] = useState<StoredConsultation<IndividualData | CompanyData>[]>([]);
+  const [lastConsultation, setLastConsultation] = useState<StoredConsultation<IndividualData | CompanyData>>(
     lastConsultationFromStorage ? JSON.parse(lastConsultationFromStorage) : {}
   );
 
-  const saveLastConsult = (payload: StoredConsultation) => {
+  const saveLastConsult = (payload: StoredConsultation<IndividualData | CompanyData>) => {
     setLastConsultation(payload);
     localStorage.setItem("lastConsultation", JSON.stringify(payload));
   };
