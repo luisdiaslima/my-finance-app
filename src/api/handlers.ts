@@ -1,4 +1,4 @@
-import { SimulationsData, CreditResult, JuridicalData, PersonData, StoredConsultation } from "@/types/Credit.interface";
+import { SimulationsData, CreditResult, StoredConsultation } from "@/types/Credit.interface";
 import { CompanyData, IndividualData } from "@/types/User.interface";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
