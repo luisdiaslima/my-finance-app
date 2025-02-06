@@ -7,6 +7,31 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+
+## How to run 
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/luisdiaslima/my-finance-app.git
+cd my-finance-app
+```
+
+### 2. Install Dependencies
+```bash
+pnpm install 
+```
+
+### 3. Run the Project
+```bash
+pnpm run dev 
+```
+The project will be available at http://localhost:5173 (or another port if configured).
+
+### 4. Run Tests
+```bash
+pnpm run test 
+```
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
