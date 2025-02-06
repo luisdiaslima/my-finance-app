@@ -90,7 +90,7 @@ export const NaturalForm = () => {
     navigate("/seu-credito");
   };
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md">
+    <form role="form" onSubmit={handleSubmit} className="w-full max-w-md">
       <div className="space-y-12">
         <div className="pb-10">
           <h2 className="mx-auto font-semibold mb-4 max-w-2xl text-xl text-slate-700">
@@ -112,6 +112,7 @@ export const NaturalForm = () => {
                 id="name"
                 name="name"
                 type="text"
+                test-id
                 onChange={handleChange}
                 onBlur={validateName}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm/6 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-700"
