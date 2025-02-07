@@ -19,6 +19,7 @@ export const NaturalForm = () => {
     income: 0,
   });
   const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { consultPerson } = useCredit();
 
@@ -86,7 +87,9 @@ export const NaturalForm = () => {
       return;
     }
 
+    setLoading(true);
     await consultPerson(formData);
+    setLoading(false);
     navigate("/seu-credito");
   };
   return (
@@ -212,7 +215,7 @@ export const NaturalForm = () => {
           onClick={() => navigate("/")}
         />
 
-        <Button type="button" variant="primary" label="Salvar" />
+        <Button type="button" disabled={loading} variant="primary" label="Salvar" />
       </div>
     </form>
   );

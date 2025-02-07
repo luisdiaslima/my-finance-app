@@ -18,6 +18,7 @@ export const JuridicalForm = () => {
     revenue: 0,
   });
   const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { consultCompany } = useCredit();
 
@@ -78,7 +79,9 @@ export const JuridicalForm = () => {
       return;
     }
 
+    setLoading(true);
     await consultCompany(formData);
+    setLoading(false);
     navigate("/seu-credito");
   };
   return (
@@ -184,7 +187,12 @@ export const JuridicalForm = () => {
           onClick={() => navigate("/")}
         />
 
-        <Button type="button" variant="primary" label="Salvar" />
+        <Button
+          type="button"
+          disabled={loading}
+          variant="primary"
+          label="Salvar"
+        />
       </div>
     </form>
   );

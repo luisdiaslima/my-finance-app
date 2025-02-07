@@ -65,6 +65,7 @@ export const CreditProvider: React.FC<{ children: React.ReactNode }> = ({
       timestamp: new Date().toISOString(),
     };
     setConsultations((prev) => [...prev, newConsultation]);
+    saveLastConsult(newConsultation);
     return credit_result;
   };
 
