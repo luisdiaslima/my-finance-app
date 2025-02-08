@@ -42,7 +42,7 @@ export default function CreditList() {
   };
 
   return !loading && visibleItems.length ? (
-    <div className="h-screen flex items-center flex-col px-4 lg:px-15">
+    <div className="h-screen flex items-center flex-col pb-15 px-4 lg:px-15">
       <div className="overflow-x-auto w-full mt-25 mb-10 bg-white rounded-lg shadow-md">
         <table className="min-w-full">
           <thead className="bg-gray-100">
